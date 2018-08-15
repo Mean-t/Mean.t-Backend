@@ -1,0 +1,20 @@
+os: linux
+sudo: false
+language: python
+virtualenv:
+  system_site_packages: false
+cache: pip3
+matrix:
+  include:
+  - python: '3.6'
+  fast_finish: true
+install:
+  - pip3 install -r requirements.txt
+  - pip3 install coveralls
+script:
+  - cd Server && python3 -m "nose" --verbose --with-coverage --cover-package=. tests/__init__.py
+
+after_success:
+  - coverage report
+  - coveralls
+  - email: artoria@artoria.us
