@@ -1,5 +1,3 @@
-from sqlalchemy import Column, DateTime, ForeignKey, ForeignKeyConstraint, Index, String, Table
-from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy
 
 
