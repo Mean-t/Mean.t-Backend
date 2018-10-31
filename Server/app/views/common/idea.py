@@ -1,17 +1,11 @@
 from flasgger import swag_from
 from flask import request
-from flask_restful import Api
 
-from app import api_v1_blueprint
 from app.docs.sample import *
 from app.views import BaseResource
 
-api = Api(api_v1_blueprint)
-api.prefix = '/idea'
 
-
-@api.resource('/')
-class Sample(BaseResource):
+class IdeaMain(BaseResource):
     @swag_from(SAMPLE_POST)
     def post(self):
         payload = request.json
@@ -22,8 +16,7 @@ class Sample(BaseResource):
         return self.unicode_safe_json_dumps(payload, 201)
 
 
-@api.resource('/search')
-class Sample(BaseResource):
+class IdeaSearch(BaseResource):
     @swag_from(SAMPLE_POST)
     def get(self, index):
         payload = request.json
@@ -34,8 +27,7 @@ class Sample(BaseResource):
         return self.unicode_safe_json_dumps(payload, 201)
 
 
-@api.resource('/<index>')
-class Sample(BaseResource):
+class IdeaInstance(BaseResource):
     @swag_from(SAMPLE_POST)
     def get(self, index):
         payload = request.json

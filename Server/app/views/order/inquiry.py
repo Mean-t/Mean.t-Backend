@@ -1,17 +1,11 @@
 from flasgger import swag_from
 from flask import request
-from flask_restful import Api
 
-from app import api_v1_blueprint
 from app.docs.sample import *
 from app.views import BaseResource
 
-api = Api(api_v1_blueprint)
-api.prefix = '/order'
 
-
-@api.resource('/<code>')
-class Sample(BaseResource):
+class Order(BaseResource):
     @swag_from(SAMPLE_POST)
     def post(self, code):
         payload = request.json
