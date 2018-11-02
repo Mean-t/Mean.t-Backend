@@ -19,6 +19,8 @@ def register_extensions(flask_app: Flask):
 def register_blueprints(flask_app: Flask):
     from app.blueprints import api_v1_blueprint
     from app.views.common import api_funding, api_idea
+    from app.views.funding import api_patron
+    from app.views.order import api_order
     # API load
 
     flask_app.register_blueprint(api_v1_blueprint)
