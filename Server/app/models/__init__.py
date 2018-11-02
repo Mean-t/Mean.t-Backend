@@ -1,9 +1,8 @@
 from typing import List, Tuple
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Table, ForeignKeyConstraint, Index
+from app.extensions import db
 
-db = SQLAlchemy()  # type: SQLAlchemy
 
 
 class Funding(db.Model):

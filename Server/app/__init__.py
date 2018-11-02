@@ -9,6 +9,7 @@ def register_extensions(flask_app: Flask):
 
     extensions.swagger.template = flask_app.config['SWAGGER_TEMPLATE']
 
+    extensions.db.init_app(flask_app)
     extensions.cors.init_app(flask_app)
     extensions.jwt.init_app(flask_app)
     extensions.validator.init_app(flask_app)
