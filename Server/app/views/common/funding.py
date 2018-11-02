@@ -7,6 +7,10 @@ from app.views import BaseResource
 
 class FundingMain(BaseResource):
     @swag_from(SAMPLE_POST)
+    def get(self):
+        return self.unicode_safe_json_dumps("hello!", 201)
+
+    @swag_from(SAMPLE_POST)
     def post(self):
         payload = request.json
 
