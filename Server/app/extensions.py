@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_validation import Validator
 from flasgger import Swagger
 
-cors = CORS()
-jwt = JWTManager()
-validator = Validator()
-swagger = Swagger()
+cors: CORS = CORS()
+jwt: JWTManager = JWTManager()
+validator: Validator = Validator()
+swagger: Swagger = Swagger()
 db: SQLAlchemy = SQLAlchemy()
