@@ -7,3 +7,4 @@ Flask-SQLAlchemy==2.3.2
 flask-validation==1.0.2
 termcolor==1.1.0
 pytest==3.9.3
+alembic==1.0.2
