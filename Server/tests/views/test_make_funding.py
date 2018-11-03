@@ -26,7 +26,7 @@ class TestMakeFunding:
         assert "api/v1/funding/new/verify" == links["makeFunding.verify"]
         assert "/api/v1/funding/new" == links["makeFunding.new"]
 
-        self.verification_code = session.query(Funding).first().code
+        self.verification_code: str = session.query(Funding).first().code
 
     def test_new(self, flask_client, idea):
         from io import BytesIO
@@ -55,11 +55,11 @@ class TestMakeFunding:
 
         assert "/api/v1/funding/new" == links["makeFunding.new"]
 
-        idea_instance_url_regex = re.compile(r"[/]api[/]v1[/]funding[/]\d")
+        idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]funding[/]\d")
         assert re.match(idea_instance_url_regex, links["funding.item.instance"])
 
-        r = re.compile(r"[/]\d")
-        self.my_funding_id = re.search(r, links["funding.item.instance"].group()[1:])
+        r: re.Match = re.compile(r"[/]\d")
+        self.my_funding_id: int = int(re.search(r, links["funding.item.instance"].group()[1:]))
 
     def test_upload_check(self, flask_client):
         res: Response = flask_client.get('/api/v1/funding/{}'.format(self.my_funding_id))
@@ -71,7 +71,7 @@ class TestMakeFunding:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        idea_instance_url_regex = re.compile(r"[/]api[/]v1[/]funding[/]\d")
+        idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]funding[/]\d")
         assert re.match(idea_instance_url_regex, links["self"])
 
         # data check
@@ -83,7 +83,7 @@ class TestMakeFunding:
         assert 1000000000 == data["goal"]
         assert isinstance(list, data["tag"])
         assert isinstance(list, data["referenced_ideas"])
-        static_url_regex = re.compile(r"[/]static[/][a-zA-Z0-9]+[.][pngjpg]+")
+        static_url_regex: re.Match = re.compile(r"[/]static[/][a-zA-Z0-9]+[.][pngjpg]+")
         assert re.match(static_url_regex, data["title_image_path"])
         assert re.match(static_url_regex, data["cover_image_path"])
         assert re.match(static_url_regex, data["header_image_paths"][0])
