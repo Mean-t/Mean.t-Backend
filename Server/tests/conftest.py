@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from alembic.command import upgrade as alembic_upgrade
 from alembic.config import Config as AlembicConfig
+from alembic.util.exc import CommandError
 
 from app import create_app
 from config.test import TestConfig  # flask application configuration
@@ -46,11 +47,17 @@ def db() -> Dict[Engine, sessionmaker]:
         'engine': engine,
         'session': session
     }
-
-    alembic_config = AlembicConfig(os.path.abspath("../../../alembic.ini"))
-    alembic_config.set_main_option('script_location', os.path.abspath("../../../meant_alembic"))
-    alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
-    alembic_upgrade(alembic_config, 'head')
+    try:
+        alembic_config = AlembicConfig(os.path.abspath("../../alembic.ini"))
+        alembic_config.set_main_option('script_location', os.path.abspath("../../meant_alembic"))
+        alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
+        alembic_upgrade(alembic_config, 'head')
+    except CommandError:
+        logger(message="testing only specified TCs", type="INFO")
+        alembic_config = AlembicConfig(os.path.abspath("../../../alembic.ini"))
+        alembic_config.set_main_option('script_location', os.path.abspath("../../../meant_alembic"))
+        alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
+        alembic_upgrade(alembic_config, 'head')
 
     logger(message="database created", type="INFO")
     yield _db
