@@ -2,6 +2,7 @@ import re
 import pytest
 from datetime import datetime, timedelta
 
+from tests.data_fixtures import idea
 from app.models import Funding
 
 # type hinting
