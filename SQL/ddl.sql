@@ -1,23 +1,30 @@
+drop schema meant;
+create schema meant;
+use meant;
+
 create table funding
 (
   email           varchar(50)   not null,
   code            varchar(10)   not null,
-  title           varchar(45)   not null,
-  body            varchar(1600) not null,
-  expiration      datetime      not null,
-  title_img_path  varchar(100)  not null,
-  cover_img_path  varchar(100)  not null,
-  header_img_path varchar(500)  not null,
+  title           varchar(45)   null,
+  body            varchar(1600) null,
+  expiration      datetime      null,
+  goal            int           null,
+  title_img_path  varchar(100)  null,
+  cover_img_path  varchar(100)  null,
+  header_img_path varchar(500)  null,
   host            varchar(10)   not null,
+  funding_id      int           not null,
   primary key (email, code)
 );
 
 create table idea
 (
-  email varchar(50)   not null,
-  code  varchar(10)   not null,
-  title varchar(45)   not null,
-  body  varchar(1600) not null,
+  email   varchar(50)   not null,
+  code    varchar(10)   not null,
+  title   varchar(45)   null,
+  body    varchar(1600) null,
+  idea_id int           not null,
   primary key (email, code)
 );
 

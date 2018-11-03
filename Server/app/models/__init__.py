@@ -35,15 +35,16 @@ t_idea_has_tag: Table = db.Table(
 class Funding(db.Model):
     __tablename__ = 'funding'
 
+    funding_id = db.Column(db.Integer, nullable=False)
     email: str = db.Column(db.String(50), primary_key=True, nullable=False)
     host: str = db.Column(db.String(10), nullable=False)
     code: str = db.Column(db.String(10), primary_key=True, nullable=False)
-    title: str = db.Column(db.String(45), nullable=False)
-    body: str = db.Column(db.String(1600), nullable=False)
-    expiration: datetime = db.Column(db.DateTime, nullable=False)
-    title_img_path: str = db.Column(db.String(100), nullable=False)
-    cover_img_path: str = db.Column(db.String(100), nullable=False)
-    header_img_path: str = db.Column(db.String(500), nullable=False)
+    title: str = db.Column(db.String(45))
+    body: str = db.Column(db.String(1600))
+    expiration: datetime = db.Column(db.DateTime)
+    title_img_path: str = db.Column(db.String(100))
+    cover_img_path: str = db.Column(db.String(100))
+    header_img_path: str = db.Column(db.String(500))
 
     tag = db.relationship('Tag', secondary='tag_has_funding', backref='fundings')  # type: List[Tag]
 
@@ -51,10 +52,11 @@ class Funding(db.Model):
 class Idea(db.Model):
     __tablename__ = 'idea'
 
+    idea_id = db.Column(db.Integer, nullable=False)
     email: str = db.Column(db.String(50), primary_key=True, nullable=False)
     code: str = db.Column(db.String(10), primary_key=True, nullable=False)
-    title: str = db.Column(db.String(45), nullable=False)
-    body: str = db.Column(db.String(1600), nullable=False)
+    title: str = db.Column(db.String(45))
+    body: str = db.Column(db.String(1600))
 
     tag: List[Tag] = db.relationship('Tag', secondary='idea_has_tag', backref='ideas')
 
