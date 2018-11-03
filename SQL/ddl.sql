@@ -21,6 +21,25 @@ create table idea
   primary key (email, code)
 );
 
+create table idea_has_funding
+(
+  idea_email    varchar(50) not null,
+  idea_code     varchar(10) not null,
+  funding_email varchar(50) not null,
+  funding_code  varchar(10) not null,
+  primary key (idea_email, idea_code, funding_email, funding_code),
+  constraint fk_idea_has_funding_funding1
+  foreign key (funding_email, funding_code) references funding (email, code),
+  constraint fk_idea_has_funding_idea1
+  foreign key (idea_email, idea_code) references idea (email, code)
+);
+
+create index fk_idea_has_funding_funding1_idx
+  on idea_has_funding (funding_email, funding_code);
+
+create index fk_idea_has_funding_idea1_idx
+  on idea_has_funding (idea_email, idea_code);
+
 create table `order`
 (
   code          varchar(10) not null,
