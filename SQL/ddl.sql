@@ -1,5 +1,3 @@
-use meant;
-
 create table funding
 (
   email           varchar(50)   not null,
@@ -10,6 +8,7 @@ create table funding
   title_img_path  varchar(100)  not null,
   cover_img_path  varchar(100)  not null,
   header_img_path varchar(500)  not null,
+  host            varchar(10)   not null,
   primary key (email, code)
 );
 
@@ -28,6 +27,8 @@ create table `order`
   email         varchar(50) not null,
   funding_email varchar(50) not null,
   funding_code  varchar(10) not null,
+  payee         varchar(10) not null,
+  destination   varchar(50) not null,
   primary key (code, email, funding_email, funding_code),
   constraint fk_order_funding1
   foreign key (funding_email, funding_code) references funding (email, code)
