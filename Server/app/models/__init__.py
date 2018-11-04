@@ -27,7 +27,7 @@ class OrderStatusEnum(Enum):
 class Funding(db.Model):
     __tablename__ = 'funding'
 
-    funding_id: int = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
+    funding_id: int = db.Column(db.Integer, primary_key=True, nullable=False, unique=True, autoincrement=True)
     email: str = db.Column(db.String(50), primary_key=True, nullable=False)
     code: str = db.Column(db.String(10), primary_key=True, nullable=False)
     title: str = db.Column(db.String(45))
@@ -93,7 +93,7 @@ t_funding_has_tag: Table = db.Table(
 class Idea(db.Model):
     __tablename__ = 'idea'
 
-    idea_id: int = db.Column(db.Integer, primary_key=True, nullable=False)
+    idea_id: int = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     email: str = db.Column(db.String(50), primary_key=True, nullable=False)
     code: str = db.Column(db.String(10), primary_key=True, nullable=False)
     title: str = db.Column(db.String(45))

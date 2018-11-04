@@ -4,7 +4,7 @@ use meant;
 
 create table funding
 (
-  funding_id       int unsigned                       not null,
+  funding_id       int unsigned auto_increment,
   email            varchar(50)                        not null,
   code             varchar(10)                        not null,
   title            varchar(45)                        null,
