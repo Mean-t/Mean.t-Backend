@@ -77,7 +77,7 @@ def session(db: Dict[Engine, sessionmaker]) -> Session:
     logger(message="database session closed", keyword="INFO")
     session.rollback()
     i: str
-    for i in ["funding", "idea", "tag", "order", "funding_status",
-              "idea_has_tag", "funding_has_tag", "funding_has_idea"]:
+    for i in ["idea_has_tag", "funding_has_tag", "funding_has_idea",
+              "tag", "funding", "idea", "order", "funding_status", ]:
         session.execute('DELETE FROM meant.{}'.format(i))
     session.close()
