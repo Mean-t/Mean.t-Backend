@@ -25,16 +25,16 @@ def flask_app() -> Flask:
     app_context = app.app_context()
     app_context.push()
 
-    logger(message="flask app created", type="INFO")
+    logger(message="flask app created", keyword="INFO")
     yield app
 
-    logger(message="flask app released", type="INFO")
+    logger(message="flask app released", keyword="INFO")
     app_context.pop()
 
 
 @pytest.fixture(scope="session")
 def flask_client(flask_app: Flask) -> FlaskClient:
-    logger(message="flask test client created", type="INFO")
+    logger(message="flask test client created", keyword="INFO")
     return flask_app.test_client()
 
 
@@ -53,27 +53,27 @@ def db() -> Dict[Engine, sessionmaker]:
         alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
         alembic_upgrade(alembic_config, 'head')
     except CommandError:
-        logger(message="testing only specified TCs", type="INFO")
+        logger(message="testing only specified TCs", keyword="INFO")
         alembic_config = AlembicConfig(os.path.abspath("../../../alembic.ini"))
         alembic_config.set_main_option('script_location', os.path.abspath("../../../meant_alembic"))
         alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
         alembic_upgrade(alembic_config, 'head')
 
-    logger(message="database created", type="INFO")
+    logger(message="database created", keyword="INFO")
     yield _db
 
-    logger(message="database disposed", type="INFO")
+    logger(message="database disposed", keyword="INFO")
     engine.dispose()
 
 
 @pytest.fixture(scope='function')
 def session(db: Dict[Engine, sessionmaker]) -> Session:
-    session = db['session']()
+    session: Session = db['session']()
     g.db = session
 
-    logger(message="database session created", type="INFO")
+    logger(message="database session created", keyword="INFO")
     yield session
 
-    logger(message="database session closed", type="INFO")
+    logger(message="database session closed", keyword="INFO")
     session.rollback()
     session.close()
