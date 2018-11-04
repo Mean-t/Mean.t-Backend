@@ -84,7 +84,7 @@ class TestMakeFunding:
         assert 1000000000 == data["goal"]
         assert isinstance(list, data["tag"])
         assert isinstance(list, data["referenced_ideas"])
-        static_url_regex: re.Match = re.compile(r"[/]static[/][a-zA-Z0-9]+[.][pngjpg]+")
+        static_url_regex: re.Match = re.compile(r"[/]static[/][a-zA-Z0-9]+[.][pnjg]+")
         assert re.match(static_url_regex, data["title_image_path"])
         assert re.match(static_url_regex, data["cover_image_path"])
         assert re.match(static_url_regex, data["header_image_paths"][0])
