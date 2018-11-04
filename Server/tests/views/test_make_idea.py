@@ -46,7 +46,7 @@ class TestShareIdea:
         assert re.match(idea_instance_url_regex, links["idea.item.instance"])
 
         r: re.Match = re.compile(r"[/]\d")
-        self.my_funding_id: int = int(re.search(r, links["idea.item.instance"].group()[1:]))
+        self.my_funding_id: int = int(re.search(r, links["viewIdea.instance"].group()[1:]))
 
     def test_shared_check(self, flask_client):
         res: Response = flask_client.get('/api/v1/idea/{}'.format(self.my_funding_id))
