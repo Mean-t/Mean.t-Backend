@@ -9,7 +9,7 @@ from alembic.util.exc import CommandError
 
 from app import create_app
 from config.test import TestConfig  # flask application configuration
-from app.misc.logger import logger
+from app.misc.log import log
 
 # typing hits
 from flask import Flask
@@ -25,16 +25,16 @@ def flask_app() -> Flask:
     app_context = app.app_context()
     app_context.push()
 
-    logger(message="flask app created", keyword="INFO")
+    log(message="flask app created", keyword="INFO")
     yield app
 
-    logger(message="flask app released", keyword="INFO")
+    log(message="flask app released", keyword="INFO")
     app_context.pop()
 
 
 @pytest.fixture(scope="session")
 def flask_client(flask_app: Flask) -> FlaskClient:
-    logger(message="flask test client created", keyword="INFO")
+    log(message="flask test client created", keyword="INFO")
     return flask_app.test_client()
 
 
@@ -53,16 +53,16 @@ def db() -> Dict[Engine, sessionmaker]:
         alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
         alembic_upgrade(alembic_config, 'head')
     except CommandError:
-        logger(message="testing only specified TCs", keyword="INFO")
+        log(message="testing only specified TCs", keyword="INFO")
         alembic_config = AlembicConfig(os.path.abspath("../../../alembic.ini"))
         alembic_config.set_main_option('script_location', os.path.abspath("../../../meant_alembic"))
         alembic_config.set_main_option('sqlalchemy.url', TestConfig.SQLALCHEMY_DATABASE_URI)
         alembic_upgrade(alembic_config, 'head')
 
-    logger(message="database created", keyword="INFO")
+    log(message="database created", keyword="INFO")
     yield _db
 
-    logger(message="database disposed", keyword="INFO")
+    log(message="database disposed", keyword="INFO")
     engine.dispose()
 
 
@@ -71,10 +71,10 @@ def session(db: Dict[Engine, sessionmaker]) -> Session:
     session: Session = db['session']()
     g.db = session
 
-    logger(message="database session created", keyword="INFO")
+    log(message="database session created", keyword="INFO")
     yield session
 
-    logger(message="database session closed", keyword="INFO")
+    log(message="database session closed", keyword="INFO")
     session.rollback()
     i: str
     for i in ["idea_has_tag", "funding_has_tag", "funding_has_idea",

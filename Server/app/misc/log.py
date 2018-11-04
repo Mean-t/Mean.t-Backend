@@ -1,7 +1,7 @@
 from termcolor import colored
 
 
-def logger(message: str, keyword: str= "WARN"):
+def log(message: str, keyword: str= "WARN"):
     if keyword == "WARN":
         print(colored('[WARN]', 'yellow'), message)
     elif keyword == "ERROR":
