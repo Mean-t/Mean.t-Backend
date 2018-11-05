@@ -35,7 +35,7 @@ def funding(session, idea) -> Funding:
                                    idea_ideas=[idea],
                                    title_img_path="/static/wef2r243.jpg",
                                    cover_img_path="/static/wef2r243.jpg",
-                                   header_img_paths="/static/wef2r243.jpg\\/static/wef2r243.jpg\\/static/wef2r243.jpg"
+                                   header_img_paths="/static/wef2r243.jpg%/static/wef2r243.jpg%/static/wef2r243.jpg"
                                    )
     session.add(new_funding)
     session.commit()
