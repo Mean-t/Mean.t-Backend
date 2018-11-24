@@ -2,7 +2,7 @@ import pytest
 import uuid
 from datetime import datetime, timedelta
 
-from app.models import Idea, Tag, Funding
+from app.models import Idea, Tag, Funding, Order
 
 
 @pytest.fixture(scope="function")
@@ -41,3 +41,16 @@ def funding(session, idea) -> Funding:
     session.commit()
 
     return new_funding
+
+
+@pytest.fixture(scope="function")
+def order(session, funding) -> Order:
+    new_order: Order = Order(code=str(uuid.uuid4()).upper().replace("-", "")[:10],
+                             email="artoria@artoria.us",
+                             payee="lewis kim",
+                             destination="Apple Campus, Cupertino, CA 95014 U.S.A",
+                             funding_funding=funding)
+    session.add(new_order)
+    session.commit()
+
+    return new_order
