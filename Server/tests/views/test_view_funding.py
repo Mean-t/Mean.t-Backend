@@ -10,9 +10,6 @@ from typing import Dict, List
 
 
 class TestViewFunding:
-    funding_data: Funding
-    funding_instance_link: str
-
     def test_view_funding_list(self, flask_client, funding) -> None:
         res: Response = flask_client.get("/api/v1/funding")
 
@@ -46,10 +43,9 @@ class TestViewFunding:
         assert re.match(link_regex, links["self"])
 
         self.funding_instance_link: str = links["self"]
-        self.funding_data = funding
 
-    def test_view_specific_funding(self, flask_client) -> None:
-        res: Response = flask_client.get(self.funding_instance_link)
+    def test_view_specific_funding(self, flask_client, funding: Funding) -> None:
+        res: Response = flask_client.get('/api/v1/funding/{}'.format(funding.funding_id))
 
         # default response check
         assert "application/json" == res.headers["Content-Type"]
@@ -64,14 +60,14 @@ class TestViewFunding:
         # data check
         assert isinstance(dict, res.data)
 
-        funding: Dict[str] = res.data
+        res_data: Dict[str] = res.data
 
-        assert self.funding_data.email == funding["email"]
-        assert self.funding_data.host == funding["host"]
-        assert self.funding_data.title == funding["title"]
-        assert isinstance(funding["tag"], list)
-        assert [tag.title for tag in self.funding_data.tag] == funding["tag"]
-        assert self.funding_data.body == funding["body"]
-        assert self.funding_data.title_img_path == funding["title_image"]
-        assert self.funding_data.cover_img_path == funding["cover_image"]
-        assert self.funding_data.header_img_paths.split("%") == funding["header_image_paths"]
+        assert funding.email == res_data["email"]
+        assert funding.host == res_data["host"]
+        assert funding.title == res_data["title"]
+        assert isinstance(res_data["tag"], list)
+        assert [tag.title for tag in funding.tag] == res_data["tag"]
+        assert funding.body == res_data["body"]
+        assert funding.title_img_path == res_data["title_image"]
+        assert funding.cover_img_path == res_data["cover_image"]
+        assert funding.header_img_paths.split("%") == res_data["header_image_paths"]
