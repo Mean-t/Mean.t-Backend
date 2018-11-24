@@ -24,13 +24,11 @@ class TestShareIdea:
 
         assert "/api/v1/idea/new" == links["new"]
 
-        self.verification_code = session.query(Idea).first().code
-
-    def test_share(self, flask_client):
+    def test_share(self, flask_client, idea):
         res: Response = flask_client.post("/api/v1/idea/new", data=dict(
             title="bulletproof raincoat",
             body="how about bulletproof raincoat?",
-        ), content_type='application/json',  headers={'Authorization': self.verification_code})
+        ), content_type='application/json',  headers={'Authorization': idea.code})
 
         # default response check
         assert "application/json" == res.content_type
@@ -42,24 +40,8 @@ class TestShareIdea:
         idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]idea[/]\d")
         assert re.match(idea_instance_url_regex, links["location"])
 
-        r: re.Match = re.compile(r"[/]\d")
-        self.my_funding_id: int = int(re.search(r, links["location"].group()[1:]))
-
-    def test_shared_check(self, flask_client):
-        res: Response = flask_client.get('/api/v1/idea/{}'.format(self.my_funding_id))
+        shared_idea: Response = flask_client.get(links["location"])
 
         # default response check
-        assert "application/json" == res.content_type
-        assert 201 == res.status_code
-
-        # HATEOAS check
-        links: Dict[str] = res.data["links"]
-
-        idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]idea[/]\d")
-        assert re.match(idea_instance_url_regex, links["self"])
-
-        # data check
-        data: Dict[str] = res.data
-
-        assert "bulletproof raincoat" == data["title"]
-        assert "how about bulletproof raincoat?" == data["body"]
+        assert "application/json" == shared_idea.content_type
+        assert 200 == shared_idea.status_code
