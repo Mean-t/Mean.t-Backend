@@ -1,6 +1,7 @@
 import re
 import pytest
 
+from tests.data_fixtures import order
 from app.models import Order
 
 # type hinting
@@ -27,10 +28,7 @@ class TestOrderProduct:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "api/v1/funding/1/order/verify" == links["orderProduct.verify"]
-        assert "/api/v1/funding/1/order" == links["orderProduct.order"]
-
-        self.verification_code = session.query(Order).first().code
+        assert "/api/v1/funding/1/order" == links["location"]
 
     def test_order(self, flask_client):
         res: Response = flask_client.post("/api/v1/funding/1/order", data=dict(
@@ -48,10 +46,10 @@ class TestOrderProduct:
         assert "/api/v1/funding/1/order" == links["orderProduct.order"]
         assert "/api/v1/tracker/order" == links["statusTracker.order.status"]
 
-    def test_check_order(self, flask_client):
+    def test_check_order(self, flask_client, order: Order):
         res: Response = flask_client.get('/api/v1/tracker/order?email={email}&code={code}'.format(
-            email=self.test_mail,
-            code=self.verification_code
+            email=order.email,
+            code=order.code
         ))
 
         # default response check
@@ -69,9 +67,9 @@ class TestOrderProduct:
         # data check
         data: Dict[str] = res.data
 
-        assert self.test_payee == data["payee"]
-        assert self.test_destination_address == data["destination"]
-        assert self.verification_code == data["code"]
+        assert order.payee == data["payee"]
+        assert order.destination == data["destination"]
+        assert order.code == data["code"]
 
         status_regex = re.compile(r"[0-9]{2}")
         assert re.match(status_regex, data["status"])
