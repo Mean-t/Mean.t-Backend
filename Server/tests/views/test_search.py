@@ -10,9 +10,6 @@ from typing import Dict, List
 
 
 class TestSearch:
-    funding_data: Funding
-    funding_instance_link: str
-
     def test_search(self, flask_client, funding) -> None:
         res: Response = flask_client.get("/api/v1/funding/search")
 
