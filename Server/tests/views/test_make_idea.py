@@ -22,7 +22,7 @@ class TestShareIdea:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "/api/v1/idea/new" == links["new"]
+        assert "/api/v1/idea/new" == links["continue"]
 
     def test_share(self, flask_client, idea_base):
         res: Response = flask_client.post("/api/v1/idea/new", data=dict(
@@ -39,9 +39,3 @@ class TestShareIdea:
 
         idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]idea[/]\d")
         assert re.match(idea_instance_url_regex, links["location"])
-
-        shared_idea: Response = flask_client.get(links["location"])
-
-        # default response check
-        assert "application/json" == shared_idea.content_type
-        assert 200 == shared_idea.status_code

@@ -24,8 +24,7 @@ class TestMakeFunding:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "api/v1/funding/new/verify" == links["makeFunding.verify"]
-        assert "/api/v1/funding/new" == links["makeFunding.new"]
+        assert "/api/v1/funding/new" == links["continue"]
 
     def test_new(self, flask_client, idea, funding_base):
         from io import BytesIO
@@ -52,7 +51,5 @@ class TestMakeFunding:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "/api/v1/funding/new" == links["makeFunding.new"]
-
         idea_instance_url_regex: re.Match = re.compile(r"[/]api[/]v1[/]funding[/]\d")
-        assert re.match(idea_instance_url_regex, links["funding.item.instance"])
+        assert re.match(idea_instance_url_regex, links["location"])

@@ -27,7 +27,7 @@ class TestOrderProduct:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "/api/v1/funding/1/order" == links["location"]
+        assert "/api/v1/funding/1/order" == links["continue"]
 
     def test_order(self, flask_client, order_base):
         res: Response = flask_client.post("/api/v1/funding/1/order", data=dict(
@@ -42,6 +42,4 @@ class TestOrderProduct:
         # HATEOAS check
         links: Dict[str] = res.data["links"]
 
-        assert "/api/v1/funding/1/order" == links["orderProduct.order"]
-        assert "/api/v1/tracker/order" == links["statusTracker.order.status"]
         assert "/api/v1/tracker/order?email={0}&code={1}".format(order_base.email, order_base.code) == links["orderStatus"]
