@@ -2,7 +2,7 @@ import re
 import pytest
 from datetime import datetime, timedelta
 
-from tests.data_fixtures import idea
+from tests.data_fixtures import idea, funding_base
 from app.models import Funding
 
 # type hinting
@@ -27,7 +27,7 @@ class TestMakeFunding:
         assert "api/v1/funding/new/verify" == links["makeFunding.verify"]
         assert "/api/v1/funding/new" == links["makeFunding.new"]
 
-    def test_new(self, flask_client, idea, funding):
+    def test_new(self, flask_client, idea, funding_base):
         from io import BytesIO
 
         res: Response = flask_client.post("/api/v1/funding/new", data=dict(
@@ -43,7 +43,7 @@ class TestMakeFunding:
                            BytesIO(b"zxcvqwerasdf", "2.jpg"),
                            BytesIO(b"zxcvqwerasdf", "3.jpg")}
 
-        ), content_type='multipart/form-data',  headers={'Authorization': funding.code})
+        ), content_type='multipart/form-data',  headers={'Authorization': funding_base.code})
 
         # default response check
         assert "application/json" == res.content_type
