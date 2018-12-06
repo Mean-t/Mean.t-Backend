@@ -29,11 +29,11 @@ class TestOrderProduct:
 
         assert "/api/v1/funding/1/order" == links["location"]
 
-    def test_order(self, flask_client, order):
+    def test_order(self, flask_client, order_base):
         res: Response = flask_client.post("/api/v1/funding/1/order", data=dict(
             payee=self.test_payee,
             destination=self.test_destination_address
-        ), content_type='application/json',  headers={'Authorization': order.code})
+        ), content_type='application/json',  headers={'Authorization': order_base.code})
 
         # default response check
         assert "application/json" == res.content_type
@@ -44,3 +44,4 @@ class TestOrderProduct:
 
         assert "/api/v1/funding/1/order" == links["orderProduct.order"]
         assert "/api/v1/tracker/order" == links["statusTracker.order.status"]
+        assert "/api/v1/tracker/order?email={0}&code={1}".format(order_base.email, order_base.code) == links["orderStatus"]

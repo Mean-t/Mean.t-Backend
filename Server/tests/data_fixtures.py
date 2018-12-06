@@ -69,6 +69,19 @@ def funding(session, idea) -> Funding:
 
 
 @pytest.fixture(scope="function")
+def order_base(session, funding) -> Order:
+    new_order: Order = Order(code=str(uuid.uuid4()).upper().replace("-", "")[:10],
+                             email="artoria@artoria.us",
+                             payee="lewis kim",
+                             destination="Apple Campus, Cupertino, CA 95014 U.S.A",
+                             funding_funding=funding)
+    session.add(new_order)
+    session.commit()
+
+    return new_order
+
+
+@pytest.fixture(scope="function")
 def order(session, funding) -> Order:
     new_order: Order = Order(code=str(uuid.uuid4()).upper().replace("-", "")[:10],
                              email="artoria@artoria.us",
