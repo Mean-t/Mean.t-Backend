@@ -45,32 +45,3 @@ class TestOrderProduct:
 
         assert "/api/v1/funding/1/order" == links["orderProduct.order"]
         assert "/api/v1/tracker/order" == links["statusTracker.order.status"]
-
-    def test_check_order(self, flask_client, order: Order):
-        res: Response = flask_client.get('/api/v1/tracker/order?email={email}&code={code}'.format(
-            email=order.email,
-            code=order.code
-        ))
-
-        # default response check
-        assert "application/json" == res.content_type
-        assert 201 == res.status_code
-
-        # HATEOAS check
-        links: Dict[str] = res.data["links"]
-
-        assert "/api/v1/tracker/order" == links["statusTracker.order.status"]
-
-        funding_regex = re.compile(r"[/]api[/]funding[/]\d")
-        assert re.match(funding_regex, links["funding.item.instance"])
-
-        # data check
-        data: Dict[str] = res.data
-
-        assert order.payee == data["payee"]
-        assert order.destination == data["destination"]
-        assert order.code == data["code"]
-
-        status_regex = re.compile(r"[0-9]{2}")
-        assert re.match(status_regex, data["status"])
-
