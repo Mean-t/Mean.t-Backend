@@ -11,8 +11,7 @@ from typing import Dict
 
 class TestOrderProduct:
     test_mail = "artoria@artoria.us"
-    test_name = "lewis kim"
-    test_payee = "arthur pandragon"
+    test_name = test_payee = "lewis kim"
     test_destination_address = "Apple Campus, Cupertino, CA 95014 U.S.A"
 
     def test_verify(self, flask_client, session):
