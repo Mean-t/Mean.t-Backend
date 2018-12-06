@@ -23,6 +23,17 @@ def idea(session) -> Idea:
 
 
 @pytest.fixture(scope="function")
+def funding_base(session, idea) -> Funding:
+    new_funding: Funding = Funding(email="artoria@artoria.us",
+                                   host="lewis kim",
+                                   code=str(uuid.uuid4()).upper().replace("-", "")[:10])
+    session.add(new_funding)
+    session.commit()
+
+    return new_funding
+
+
+@pytest.fixture(scope="function")
 def funding(session, idea) -> Funding:
     new_funding: Funding = Funding(email="artoria@artoria.us",
                                    host="lewis kim",
