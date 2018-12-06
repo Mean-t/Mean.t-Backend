@@ -6,6 +6,20 @@ from app.models import Idea, Tag, Funding, Order
 
 
 @pytest.fixture(scope="function")
+def idea_base(session) -> Idea:
+    new_tag: Tag = Tag(title="raincoat")
+    session.add(new_tag)
+
+    new_idea: Idea = Idea(email="artoria@artoria.us",
+                          code=str(uuid.uuid4()).upper().replace("-", "")[:10])
+
+    session.add(new_idea)
+    session.commit()
+
+    return new_idea
+
+
+@pytest.fixture(scope="function")
 def idea(session) -> Idea:
     new_tag: Tag = Tag(title="raincoat")
     session.add(new_tag)

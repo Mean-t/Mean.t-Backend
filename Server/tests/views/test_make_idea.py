@@ -24,11 +24,11 @@ class TestShareIdea:
 
         assert "/api/v1/idea/new" == links["new"]
 
-    def test_share(self, flask_client, idea):
+    def test_share(self, flask_client, idea_base):
         res: Response = flask_client.post("/api/v1/idea/new", data=dict(
             title="bulletproof raincoat",
             body="how about bulletproof raincoat?",
-        ), content_type='application/json',  headers={'Authorization': idea.code})
+        ), content_type='application/json',  headers={'Authorization': idea_base.code})
 
         # default response check
         assert "application/json" == res.content_type
