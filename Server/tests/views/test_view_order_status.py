@@ -11,7 +11,7 @@ from typing import Dict
 
 class TestViewOrderStatus:
     def test_check_order(self, flask_client, order: Order):
-        res: Response = flask_client.get('/api/v1/tracker/order?email={email}&code={code}'.format(
+        res: Response = flask_client.get('/api/v1/order?email={email}&code={code}'.format(
             email=order.email,
             code=order.code
         ))
