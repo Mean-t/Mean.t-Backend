@@ -40,7 +40,7 @@ class Funding(db.Model):
     created_at: datetime = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     updated_at: datetime = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
 
-    idea_ideas: List[Idea] = db.relationship('Idea', secondary='funding_has_idea', backref='fundings')
+    ideas: List[Idea] = db.relationship('Idea', secondary='funding_has_idea', backref='fundings')
     tag: List[Tag] = db.relationship('Tag', secondary='funding_has_tag', backref='fundings')
 
 
@@ -135,7 +135,7 @@ class Order(db.Model):
     funding_email: str = db.Column(db.String(50), primary_key=True, nullable=False)
     funding_code: str = db.Column(db.String(10), primary_key=True, nullable=False)
 
-    funding_funding: Funding = db.relationship('Funding',
+    funding: Funding = db.relationship('Funding',
                                                primaryjoin='and_(Order.funding_funding_id == Funding.funding_id, '
                                                            'Order.funding_email == Funding.email, '
                                                            'Order.funding_code == Funding.code)', backref='orders')
