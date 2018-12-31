@@ -6,6 +6,7 @@ class DevConfig(Config):
     PORT = 5000
     DEBUG = True
 
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:wasitacatisaw?@localhost:3306/meant"
     SQLALCHEMY_ECHO = True
 
     RUN_SETTING = dict(Config.RUN_SETTING, **{
