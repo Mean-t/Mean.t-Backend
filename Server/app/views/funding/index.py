@@ -13,4 +13,10 @@ class FundingIndex(BaseResource):
         query_string = dict(request.query_string)
         fundings = Funding.query.filter_by(**query_string).all()
 
-        return self.unicode_safe_json_dumps(fundings)
+        return self.unicode_safe_json_dumps([
+            {'id': funding.funding_id,
+             'title': funding.title,
+             'expiration': funding.expiration,
+             'title_img': funding.title_img_path}
+            for funding in fundings
+        ])
