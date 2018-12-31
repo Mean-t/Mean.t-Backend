@@ -1,5 +1,5 @@
 import json
-import time
+import datetime
 
 from flask import Response
 from flask_restful import Resource
@@ -7,10 +7,10 @@ from flask_restful import Resource
 
 class BaseResource(Resource):
     def __init__(self):
-        self.now = time.strftime('%Y-%m-%d %H:%M:%S')
+        self.now = datetime.datetime.now()
 
     @classmethod
-    def unicode_safe_json_dumps(cls, data, status_code: int=200, **kwargs) -> Response:
+    def unicode_safe_json_dumps(cls, data=None, status_code: int=200, **kwargs) -> Response:
         return Response(
             json.dumps(data, ensure_ascii=False),
             status_code,
